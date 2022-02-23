@@ -16,7 +16,7 @@ import (
 func Create(db *gorm.DB) {
 
 	// 可以获取表空间和模式名
-	namer := db.NamingStrategy.(Namer)
+	//namer := db.NamingStrategy
 
 	stmt := db.Statement
 	schema := stmt.Schema
@@ -75,7 +75,7 @@ func Create(db *gorm.DB) {
 			stmt.Build("MERGE", "WHEN MATCHED", "WHEN NOT MATCHED")
 		} else {
 			// stmt.AddClauseIfNotExists(clause.Insert{Table: clause.Table{Name: stmt.Table}})
-			stmt.AddClauseIfNotExists(clause.Insert{Table: clause.Table{Name: namer.DmSchemaName + "." + stmt.Table}})
+			stmt.AddClauseIfNotExists(clause.Insert{Table: clause.Table{Name: stmt.Table}})
 			stmt.AddClause(clause.Values{Columns: values.Columns, Values: [][]interface{}{values.Values[0]}})
 			if hasDefaultValues {
 				// stmt.AddClauseIfNotExists(clause.Returning{
